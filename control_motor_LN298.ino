@@ -6,7 +6,8 @@ const byte motorenableIzq = 10;
 const byte motorenableDer = 11;
 
 byte velocidad_inicial = 0;
-byte velocidad_minima = 70;
+byte velocidad_minima = 55;
+bool sentido = true;
 
 
 void setup() {
@@ -24,12 +25,13 @@ void setup() {
 void loop() {
 
   //prueba velocidad de arranque motor
-  //control_M_Izq(true, velocidad_inicial);
-  //velocidad_inicial++;
-  //delay(300);
-  //Serial.println(velociadad_inicial);
+  control_M_Izq(sentido, velocidad_minima);
+  control_M_Der(sentido, velocidad_minima);
+  velocidad_minima++;
+  delay(300);
+  Serial.println(String (velocidad_minima));
 
-    //arranque 0-max veloc, con pausa
+  //arranque 0-max veloc, con pausa
   //control_M_Izq(true,254);
   //delay(2000);
   //control_M_Izq(true,0);
@@ -41,13 +43,24 @@ void loop() {
 
 }
 
-void control_M_Izq(sentido, byte vel){
+void control_M_Izq(bool sentido, byte vel){
   if (sentido == true){
     digitalWrite(motorIzqA,HIGH);
     digitalWrite(motorIzqB,LOW);
     }else{
      digitalWrite(motorIzqA,LOW);
-     digitalWrite(motorIzqB,HIGH); 
+     digitalWrite(motorIzqB,HIGH);
     }
     analogWrite(motorenableIzq,vel);
+}
+
+void control_M_Der(bool sentido, byte vel){
+  if (sentido == true){
+    digitalWrite(motorDerA,HIGH);
+    digitalWrite(motorDerB,LOW);
+    }else{
+     digitalWrite(motorDerA,LOW);
+     digitalWrite(motorDerB,HIGH);
+    }
+    analogWrite(motorenableDer,vel);
 }
